@@ -1,0 +1,27 @@
+version: "3"
+services:     
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=lab5
+      - MYSQL_USER=lucian
+      - MYSQL_PASSWORD=lucian
+    ports:
+      - "3306:3306"
+      
+  spring-boot-rest-docker-app:
+    build: .
+    depends_on:
+      - mysql
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8765:8080"
+    environment:
+      - DATABASE_HOST=mysql
+      - DATABASE_USER=lucian
+      - DATABASE_PASSWORD=lucian
+      - DATABASE_NAME=lab5
+      - DATABASE_PORT=3306
